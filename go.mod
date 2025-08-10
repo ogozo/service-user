@@ -5,7 +5,7 @@ go 1.24.6
 require (
 	github.com/golang-jwt/jwt/v4 v4.5.2
 	github.com/jackc/pgx/v4 v4.18.3
-	github.com/ogozo/proto-definitions v0.0.0-20250810175126-26cd15135691
+	github.com/ogozo/proto-definitions v0.0.0-20250810193401-655e316c89a5
 	golang.org/x/crypto v0.41.0
 	google.golang.org/grpc v1.74.2
 )
