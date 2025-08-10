@@ -1,3 +1,4 @@
+// service-user/cmd/server/main.go
 package main
 
 import (
@@ -7,32 +8,27 @@ import (
 
 	"github.com/jackc/pgx/v4/pgxpool"
 	pb "github.com/ogozo/proto-definitions/gen/go/user"
+	"github.com/ogozo/service-user/internal/config"
 	"github.com/ogozo/service-user/internal/user"
 	"google.golang.org/grpc"
 )
 
-const (
-	// Bu adresleri daha sonra config'den alacağız
-	dbURL    = "postgres://admin:secret@localhost:5432/ecommerce"
-	grpcPort = ":50051"
-)
-
 func main() {
-	// Veritabanı bağlantısı
-	dbpool, err := pgxpool.Connect(context.Background(), dbURL)
+	config.LoadConfig()
+	cfg := config.AppConfig
+
+	dbpool, err := pgxpool.Connect(context.Background(), cfg.DatabaseURL)
 	if err != nil {
 		log.Fatalf("Unable to connect to database: %v\n", err)
 	}
 	defer dbpool.Close()
 	log.Println("Database connection successful.")
 
-	// Bağımlılıkların enjeksiyonu (Dependency Injection)
 	userRepo := user.NewRepository(dbpool)
 	userService := user.NewService(userRepo)
-	userHandler := user.NewHandler(userService)
+	userHandler := user.NewHandler(userService, cfg.JWTSecretKey)
 
-	// gRPC sunucusunu başlatma
-	lis, err := net.Listen("tcp", grpcPort)
+	lis, err := net.Listen("tcp", cfg.GRPCPort)
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}

@@ -4,23 +4,22 @@ import (
 	"context"
 	"time"
 
-	pb "github.com/ogozo/proto-definitions/gen/go/user"
 	"github.com/golang-jwt/jwt/v4"
+	pb "github.com/ogozo/proto-definitions/gen/go/user"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
-
-var jwtSecret = []byte("super-secret-key")
 
 // Handler, gRPC isteklerini yönetir.
 type Handler struct {
 	pb.UnimplementedUserServiceServer
 	service *Service
+	jwtKey  []byte
 }
 
 // NewHandler, yeni bir handler örneği oluşturur.
-func NewHandler(service *Service) *Handler {
-	return &Handler{service: service}
+func NewHandler(service *Service, jwtKey string) *Handler {
+	return &Handler{service: service, jwtKey: []byte(jwtKey)}
 }
 
 // Register, gRPC Register isteğini işler.
@@ -47,7 +46,8 @@ func (h *Handler) Login(ctx context.Context, req *pb.LoginRequest) (*pb.LoginRes
 		"exp":     time.Now().Add(time.Hour * 24).Unix(),
 	})
 
-	tokenString, err := token.SignedString(jwtSecret)
+	// Anahtarı struct'tan al
+	tokenString, err := token.SignedString(h.jwtKey)
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "could not create token: %v", err)
 	}
