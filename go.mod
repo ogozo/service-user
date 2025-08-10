@@ -5,7 +5,7 @@ go 1.24.6
 require (
 	github.com/golang-jwt/jwt/v4 v4.5.2
 	github.com/jackc/pgx/v4 v4.18.3
-	github.com/ogozo/proto-definitions v0.0.0-20250810103642-97ff9d49276c
+	github.com/ogozo/proto-definitions v0.0.0-20250810130355-dfdb16bf7c05
 	golang.org/x/crypto v0.41.0
 	google.golang.org/grpc v1.74.2
 )
@@ -24,5 +24,5 @@ require (
 	golang.org/x/sys v0.35.0 // indirect
 	golang.org/x/text v0.28.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20250528174236-200df99c418a // indirect
-	google.golang.org/protobuf v1.36.6 // indirect
+	google.golang.org/protobuf v1.36.7 // indirect
 )

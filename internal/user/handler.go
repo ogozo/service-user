@@ -10,7 +10,6 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-// JWT için gizli anahtar. Bu normalde config'den gelmeli!
 var jwtSecret = []byte("super-secret-key")
 
 // Handler, gRPC isteklerini yönetir.
