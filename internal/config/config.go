@@ -7,9 +7,11 @@ import (
 )
 
 type Config struct {
-	GRPCPort     string `mapstructure:"GRPC_PORT"`
-	DatabaseURL  string `mapstructure:"DATABASE_URL"`
-	JWTSecretKey string `mapstructure:"JWT_SECRET_KEY"`
+	GRPCPort             string `mapstructure:"GRPC_PORT"`
+	DatabaseURL          string `mapstructure:"DATABASE_URL"`
+	JWTSecretKey         string `mapstructure:"JWT_SECRET_KEY"`
+	OtelExporterEndpoint string `mapstructure:"OTEL_EXPORTER_OTLP_ENDPOINT"`
+	OtelServiceName      string `mapstructure:"OTEL_SERVICE_NAME"`
 }
 
 var AppConfig *Config
